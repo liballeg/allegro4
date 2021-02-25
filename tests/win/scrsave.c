@@ -204,7 +204,7 @@ void ss_exit(void)
 
 
 /* dialog procedure for the settings dialog */
-BOOL CALLBACK settings_dlg_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK settings_dlg_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
    switch (uMsg) {
 
@@ -290,7 +290,7 @@ int do_password(HANDLE hInstance, HANDLE hPrevInstance, HWND hParentWnd)
 
 
 /* window procedure for the screensaver preview */
-LRESULT CALLBACK preview_wnd_proc(HWND hwnd, UINT message, UINT wParam, LONG lParam)
+LRESULT CALLBACK preview_wnd_proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
    PAINTSTRUCT ps;
    HDC hdc;
@@ -464,7 +464,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
       args++;
 
    if ((args[0]) && ((args[1] == ' ') || (args[1] == ':')))
-      hwnd = (HWND)atoi(args+2);
+      hwnd = (HWND)(intptr_t)atoi(args+2);
    else
       hwnd = GetActiveWindow();
 
