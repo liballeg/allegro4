@@ -120,7 +120,7 @@ struct FF_DATA
       struct _finddata_t a;
       struct _wfinddata_t w;
    } data;
-   long handle;
+   intptr_t handle;
    int attrib;
 };
 
