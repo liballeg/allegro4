@@ -25,6 +25,7 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
+    cmake_policy(SET CMP0048 NEW)
 endif(COMMAND cmake_policy)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -39,11 +40,39 @@ set(CMAKE_CONFIGURATION_TYPES "${CMAKE_BUILD_TYPE}" CACHE INTERNAL "internal")
 
 #-----------------------------------------------------------------------------#
 #
+#   Version
+#
+#-----------------------------------------------------------------------------#
+
+set(ALLEGRO_VERSION_REGEX_PATTERN "#define ALLEGRO_VERSION_STR[ ]+\"([0-9]+\\.[0-9]+\\.[0-9]+).*\"")
+file(STRINGS "${CMAKE_CURRENT_LIST_DIR}/include/allegro/base.h" ALLEGRO_VERSION_MATCH
+    REGEX ${ALLEGRO_VERSION_REGEX_PATTERN}
+    LIMIT_COUNT 1
+)
+string(REGEX REPLACE ${ALLEGRO_VERSION_REGEX_PATTERN} "\\1" ALLEGRO_VERSION "${ALLEGRO_VERSION_MATCH}")
+if("${ALLEGRO_VERSION}" VERSION_LESS 5.0.0)
+    message(STATUS "[Allegro] Allegro Version: [${ALLEGRO_VERSION}]")
+else()
+    message(FATAL_ERROR "[Allegro] Invalid Allegro Version: [${ALLEGRO_VERSION}]")
+endif()
+
+#-----------------------------------------------------------------------------#
+#
 # Build options
 #
 
 # Set the project name.
-project(ALLEGRO C CXX)
+
+# Allow generating custom project name via command-line arguments (#1174)
+set(ALLEGRO_PROJECT_NAME "ALLEGRO" CACHE STRING "Project default name")
+set(ALLEGRO_PROJECT_SUFFIX "" CACHE STRING "Project suffix")
+
+project(${ALLEGRO_PROJECT_NAME}${ALLEGRO_PROJECT_SUFFIX}
+    VERSION ${ALLEGRO_VERSION}
+    LANGUAGES C CXX
+    DESCRIPTION "Allegro project"
+    HOMEPAGE_URL "https://github.com/liballeg/allegro4"
+)
 
 if(WIN32)
     if(MINGW)
@@ -844,6 +873,8 @@ set_target_properties(allegro
     static_link_with "${static_link_with}"
     )
 
+set(PKG_TARGETS_NAME "${PKG_NAME}Targets")
+
 install_our_library(allegro)
 if(NOT WANT_FRAMEWORKS)
     install_our_headers(${ALLEGRO_PUBLIC_HEADERS})
@@ -881,7 +912,7 @@ endif(PSP)
 # allegro-config script
 #
 
-if(UNIX) # including MACOSX
+if(UNIX OR MSYS OR MINGW) # including MACOSX
     set(prefix "${CMAKE_INSTALL_PREFIX}")
     set(INCLUDE_PREFIX "${CMAKE_INSTALL_PREFIX}") # not sure what this is
     if(BUILD_SHARED_LIBS)
@@ -889,7 +920,7 @@ if(UNIX) # including MACOSX
     else()
         set(LINK_WITH_STATIC_LIBS yes)
     endif()
-    set(LIB_TO_LINK alleg${BUILD_TYPE_SUFFIX})
+    set(LIB_TO_LINK ${allegro_OUTPUT_NAME}${BUILD_TYPE_SUFFIX})
     if(APPLE)
 	set(LDFLAGS "-framework Cocoa -lalleg-main")
     else(APPLE)
@@ -923,7 +954,7 @@ if(UNIX) # including MACOSX
     install(PROGRAMS ${CMAKE_BINARY_DIR}/allegro-config
             DESTINATION bin
             )
-endif(UNIX)
+endif(UNIX OR MSYS OR MINGW)
 
 #-----------------------------------------------------------------------------#
 #
@@ -972,7 +1003,7 @@ set(PKG_CONFIG_FILES
     logg
     )
 
-if(UNIX)
+if(UNIX OR MSYS)
     set(prefix "${CMAKE_INSTALL_PREFIX}")
     set(INCLUDE_PREFIX "\${prefix}")
     set(bindir "\${exec_prefix}/bin")
@@ -997,7 +1028,53 @@ if(UNIX)
                 DESTINATION "lib${LIB_SUFFIX}/pkgconfig"
                 )
     endforeach(name)
-endif(UNIX)
+endif(UNIX OR MSYS)
+
+set(ALLEGRO_TARGETS ${PKG_CONFIG_FILES})
+# Generate CMake package-config files
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
+
+set(PKG_NAME "Allegro")
+string(TOLOWER ${PKG_NAME} PKG_NAME_LOWER)
+
+set(PKG_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PKG_NAME_LOWER}4")
+set(PKG_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/cmake")
+set(PKG_CONFIG_FILE "${PKG_GENERATED_DIR}/${PKG_NAME}Config.cmake")
+set(PKG_VERSION_FILE "${PKG_GENERATED_DIR}/${PKG_NAME}ConfigVersion.cmake")
+
+configure_package_config_file(
+  "${CMAKE_CURRENT_LIST_DIR}/cmake/${PKG_NAME}Config.cmake.in"
+  ${PKG_CONFIG_FILE}
+  INSTALL_DESTINATION ${PKG_CONFIG_INSTALL_DIR}
+  NO_SET_AND_CHECK_MACRO
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
+write_basic_package_version_file(${PKG_VERSION_FILE}
+  VERSION ${ALLEGRO_VERSION}
+  COMPATIBILITY SameMajorVersion
+)
+install(
+  EXPORT ${PKG_TARGETS_NAME}
+  NAMESPACE ${PKG_NAME}::
+  DESTINATION ${PKG_CONFIG_INSTALL_DIR}
+)
+install(
+  FILES ${PKG_CONFIG_FILE} ${PKG_VERSION_FILE}
+  DESTINATION ${PKG_CONFIG_INSTALL_DIR}
+)
+
+# Export build tree for debugging
+
+target_include_directories(allegro INTERFACE
+    $<BUILD_INTERFACE:include;${PROJECT_BINARY_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+export(EXPORT ${PKG_TARGETS_NAME}
+       FILE "${PKG_GENERATED_DIR}/${PKG_NAME}Targets.cmake"
+       NAMESPACE ${PKG_NAME}::
+)
 
 #-----------------------------------------------------------------------------#
 #

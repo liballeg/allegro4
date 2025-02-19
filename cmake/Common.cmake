@@ -26,6 +26,7 @@ endfunction(set_our_framework_properties)
 
 function(install_our_library target)
     install(TARGETS ${target}
+            EXPORT ${PKG_TARGETS_NAME}
             LIBRARY DESTINATION "lib${LIB_SUFFIX}"
             ARCHIVE DESTINATION "lib${LIB_SUFFIX}"
             FRAMEWORK DESTINATION "${FRAMEWORK_INSTALL_PREFIX}"
@@ -64,7 +65,7 @@ function(sanitize_cmake_link_flags return)
       # Watch out for -framework options (OS X)
       IF (NOT lib MATCHES "-framework.*|.*framework")
          # Remove absolute path.
-         string(REGEX REPLACE "/.*/(.*)" "\\1" lib ${lib})
+         string(REGEX REPLACE "([A-Z]:)?/.*/(.*)" "\\2" lib ${lib})
 
          # Remove .a/.so/.dylib.
          string(REGEX REPLACE "lib(.*)\\.(a|so|dylib)" "\\1" lib ${lib})
