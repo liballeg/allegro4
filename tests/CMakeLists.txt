@@ -20,14 +20,7 @@ if(WIN32)
         add_our_executable(dibsound WIN32 win/dibsound.c win/dibsound.rc)
         add_our_executable(dxwindow WIN32 win/dxwindow.c win/dxwindow.rc)
         add_our_executable(scrsave WIN32 win/scrsave.c win/scrsave.rc)
-        # I don't know if there is a better way.
-        add_custom_command(
-            TARGET scrsave
-            POST_BUILD
-            COMMAND "${CMAKE_COMMAND}" -E copy
-                    "${CMAKE_CURRENT_BINARY_DIR}/scrsave.exe"
-                    "${CMAKE_CURRENT_BINARY_DIR}/scrsave.scr"
-            )
+        set_target_properties(scrsave PROPERTIES SUFFIX ".scr")
     endif()
 endif(WIN32)
 
