@@ -37,6 +37,11 @@ add_our_library(jpgalleg ${ADDON_LINKAGE}
     ${JPGALLEG_HEADERS}
     )
 
+target_compile_definitions(jpgalleg
+    PRIVATE JPGALLEG_SRC_BUILD
+    PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:JPGALLEG_DYNAMIC>
+    )
+
 set_target_properties(jpgalleg
     PROPERTIES
     LINK_FLAGS "${ALLEGRO_LINK_FLAGS}"

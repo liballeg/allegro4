@@ -28,6 +28,11 @@ add_our_library(logg ${ADDON_LINKAGE}
     ${LOGG_HEADERS}
     )
 
+target_compile_definitions(logg
+    PRIVATE LOGG_SRC_BUILD
+    PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:LOGG_DYNAMIC>
+    )
+
 set_target_properties(logg
     PROPERTIES
     LINK_FLAGS "${ALLEGRO_LINK_FLAGS}"

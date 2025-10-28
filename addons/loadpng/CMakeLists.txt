@@ -31,6 +31,11 @@ add_our_library(loadpng ${ADDON_LINKAGE}
     ${LOADPNG_HEADERS}
     )
 
+target_compile_definitions(loadpng
+    PRIVATE LOADPNG_SRC_BUILD
+    PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:LOADPNG_DYNAMIC>
+    )
+
 set_target_properties(loadpng
     PROPERTIES
     LINK_FLAGS "${ALLEGRO_LINK_FLAGS}"

@@ -132,6 +132,11 @@ add_our_library(allegrogl ${ADDON_LINKAGE}
     ${ALLEGROGL_HEADERS}
     )
 
+target_compile_definitions(allegrogl
+    PRIVATE ALLEGRO_GL_SRC_BUILD
+    PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:ALLEGRO_GL_DYNAMIC>
+    )
+
 set_target_properties(allegrogl
     PROPERTIES
     COMPILE_FLAGS -DALLEGRO_GL_SRC_BUILD
