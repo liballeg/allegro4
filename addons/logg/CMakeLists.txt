@@ -56,6 +56,8 @@ endif(NOT WANT_FRAMEWORKS)
 #
 
 if(WANT_EXAMPLES)
+    add_compile_definitions(ALLEGRO_USE_CONSOLE)
+
     add_executable(play_ogg play_ogg.c)
     target_link_libraries(play_ogg logg)
 
