@@ -32,6 +32,7 @@
 
 #include <time.h>
 
+#define STRICT
 #include "allegro.h"
 #include "winalleg.h"
 #include "scrsave.rh"

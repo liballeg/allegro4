@@ -19,6 +19,7 @@
  */
 
 #include "allegro.h"
+#define STRICT
 #include "winalleg.h"
 #include "dibsound.rh" 
 
