@@ -3,7 +3,6 @@
 # AllegroGL
 #
 
-find_package(OpenGL)
 if(NOT OPENGL_FOUND)
     return()
 endif()
@@ -26,7 +25,7 @@ if(DLOPEN_LIB)
 endif()
 
 if(ALLEGRO_WITH_XWINDOWS)
-    set(CMAKE_REQUIRED_LIBRARIES ${OPENGL_gl_LIBRARY})
+    set(CMAKE_REQUIRED_LIBRARIES OpenGL::GL)
     check_function_exists(glXGetProcAddress GLXGETPROCADDRESS_FOUND)
     if(NOT GLXGETPROCADDRESS_FOUND)
         check_function_exists(glXGetProcAddressARB GLXGETPROCADDRESSARB_FOUND)
@@ -183,7 +182,7 @@ function(add_our_example nm)
         PROPERTIES
         OUTPUT_NAME examp/${nm}
         )
-    target_link_libraries(${nm}_agl allegrogl)
+    target_link_libraries(${nm}_agl allegrogl OpenGL::GL)
 endfunction()
 
 if(WANT_EXAMPLES)

@@ -978,6 +978,7 @@ endif()
 
 
 if(WANT_ALLEGROGL)
+    find_package(OpenGL)
     add_subdirectory(addons/allegrogl)
 endif()
 if(WANT_LOADPNG)
