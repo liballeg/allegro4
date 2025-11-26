@@ -1615,10 +1615,7 @@ static int folded_size = 0;
 /* helper function for comparing two pointers */
 static INLINE int ptr_cmp(AL_CONST void *elem_p1, AL_CONST void *elem_p2)
 {
-   AL_CONST void *ptr1 = *(AL_CONST void **)elem_p1;
-   AL_CONST void *ptr2 = *(AL_CONST void **)elem_p2;
-
-   return (int)((AL_CONST unsigned long)ptr2 - (AL_CONST unsigned long)ptr1);
+   return *(AL_CONST uintptr_t *)elem_p2 - *(AL_CONST uintptr_t *)elem_p1;
 }
 
 
