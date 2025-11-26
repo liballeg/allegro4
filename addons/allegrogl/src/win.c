@@ -1557,7 +1557,7 @@ static BITMAP *allegro_gl_win_init(int w, int h, int v_w, int v_h)
 
 		if (fullscreen) {
 			SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT,
-			                     0, (LPVOID)lock_time,
+			                     0, (LPVOID)(uintptr_t)lock_time,
 			                     SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
 		}
 #undef SPI_GETFOREGROUNDLOCKTIMEOUT
