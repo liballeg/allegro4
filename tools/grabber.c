@@ -1639,7 +1639,7 @@ static void fold_datafile(DATAFILE *dat)
 	 break;
    }
 
-   memmove(elem_p + 1, elem_p, (size_t)((unsigned long)&folded[folded_size++] - (unsigned long)elem_p));
+   memmove(elem_p + 1, elem_p, &folded[folded_size++] - elem_p);
    *elem_p = dat->dat;
 }
 
@@ -1651,7 +1651,7 @@ static void unfold_datafile(DATAFILE *dat)
    void **elem_p = bsearch(&dat->dat, folded, folded_size, sizeof(void *), ptr_cmp);
 
    if (elem_p)
-      memmove(elem_p, elem_p + 1, (size_t)((unsigned long)&folded[--folded_size] - (unsigned long)elem_p));
+      memmove(elem_p, elem_p + 1, &folded[--folded_size] - elem_p);
 }
 
 
@@ -3034,7 +3034,7 @@ static int helper(void)
       while (uisspace(last[j]))
 	 j++;
       s++;
-      memmove(s, s+1+cr+j, size - ((long)s-(long)grabber_help_text) - 1 - j);
+      memmove(s, s+1+cr+j, size - (s-grabber_help_text) - 1 - j);
       size -= 1+cr+j;
       last = s;
    }
@@ -3298,7 +3298,7 @@ static int add_new(int type)
 /* handle the new object command */
 static int new_object(void)
 {
-   return add_new((int)((unsigned long)active_menu->dp));
+   return add_new((intptr_t)active_menu->dp);
 }
 
 
@@ -3306,7 +3306,7 @@ static int new_object(void)
 /* handle the replace object command */
 static int replace_object(void)
 {
-   return replacer((int)((unsigned long)active_menu->dp));
+   return replacer((intptr_t)active_menu->dp);
 }
 
 
@@ -3905,7 +3905,7 @@ int main(int argc, char *argv[])
 	 tmpmenu.proc = new_object;
 	 tmpmenu.child = NULL;
 	 tmpmenu.flags = 0;
-	 tmpmenu.dp = (void *)(unsigned long)datedit_object_info[i]->type;
+	 tmpmenu.dp = (void *)(intptr_t)datedit_object_info[i]->type;
 
 	 add_to_menu(new_menu, &tmpmenu, TRUE, NULL, NULL, 0);
 
