@@ -2948,7 +2948,7 @@ static int decode_format_string(char *buf, STRING_ARG *string_arg, AL_CONST char
 
 	       case 'p':
 		  /* pointer */
-		  slen = sprint_hex(string_arg, &info, FALSE, (unsigned LONGEST)(uintptr_t)va_arg(args, void *));
+		  slen = sprint_hex(string_arg, &info, FALSE, (unsigned LONGEST)va_arg(args, uintptr_t));
 		  NEXT_C();
 		  break;
 
