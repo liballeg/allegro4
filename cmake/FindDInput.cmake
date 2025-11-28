@@ -29,7 +29,7 @@ find_library(DINPUT_LIBRARY
 # Handle the QUIETLY and REQUIRED arguments and set DINPUT_FOUND to TRUE if
 # all listed variables are TRUE.
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(DINPUT DEFAULT_MSG
+find_package_handle_standard_args(DInput DEFAULT_MSG
     DINPUT_INCLUDE_DIR DINPUT_LIBRARY)
 
 if(DINPUT_FOUND)

@@ -18,7 +18,7 @@ if(NOT GP2XWIZ)
     # Handle the QUIETLY and REQUIRED arguments and set VORBIS_FOUND
     # to TRUE if all listed variables are TRUE.
     include(FindPackageHandleStandardArgs)
-    find_package_handle_standard_args(VORBIS DEFAULT_MSG
+    find_package_handle_standard_args(Vorbis DEFAULT_MSG
         OGG_INCLUDE_DIR VORBIS_INCLUDE_DIR
         OGG_LIBRARY VORBIS_LIBRARY VORBISFILE_LIBRARY)
 else(NOT GP2XWIZ)
