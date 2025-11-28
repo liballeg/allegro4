@@ -35,12 +35,14 @@
     {
       "name": "ci-xc",
       "inherits": "ci-gcc",
+      "environment": {
+        "MINGDIR": "/usr/x86_64-w64-mingw32"
+      },
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/toolchains/mingw.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-mingw-dynamic",
-        "VCPKG_TARGET_ARCHITECTURE": "x64",
-        "CMAKE_FIND_ROOT_PATH": "/usr/x86_64-w64-mingw32"
+        "VCPKG_TARGET_ARCHITECTURE": "x64"
       }
     }
   ],
