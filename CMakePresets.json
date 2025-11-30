@@ -44,6 +44,18 @@
         "VCPKG_TARGET_TRIPLET": "x64-mingw-dynamic",
         "VCPKG_TARGET_ARCHITECTURE": "x64"
       }
+    },
+    {
+      "name": "ci-psp",
+      "inherits": "ci-gcc",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/Toolchain-psp-gcc.cmake",
+        "CMAKE_MAKE_PROGRAM": "/usr/lib/ninja-build/bin/ninja",
+        "SHARED": false,
+        "WANT_TOOLS": false,
+        "WANT_ALLEGROGL": false,
+        "ALLEGRO_USE_CONSTRUCTOR_EXITCODE": "0"
+      }
     }
   ],
   "buildPresets": [
