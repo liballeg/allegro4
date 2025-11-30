@@ -43,7 +43,7 @@ AL_VAR(GFX_VTABLE, psp_vtable8);
 AL_FUNC(void, psp_do_stretch_blit8, (BITMAP *source, BITMAP *dest, int source_x, int source_y, int source_width, int source_height, int dest_x, int dest_y, int dest_width, int dest_height, int masked));
 
 /* The video bitmap actually displayed on the PSP. */
-BITMAP *displayed_video_bitmap;
+AL_VAR(BITMAP *, displayed_video_bitmap);
 
 AL_FUNC(void, psp_draw_to_screen, (void));
 
