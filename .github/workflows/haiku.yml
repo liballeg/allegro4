@@ -15,6 +15,6 @@ jobs:
         version: r1beta5
         image_url: 'https://github.com/cross-platform-actions/haiku-builder/releases/download/v0.0.1/haiku-r1beta5-x86-64.qcow2'
         run: |
-          pkgman install cmake libvorbis_devel ninja git
+          echo yes | pkgman install cmake libvorbis_devel ninja git
           cmake . -B build --preset=ci-gcc
           cmake --build build --preset ninja-quiet
