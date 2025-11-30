@@ -6,14 +6,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
     - name: Build on Haiku
       uses: cross-platform-actions/action@v0.30.0
       with:
+        operating_system: haiku
+        version: r1beta5
         image_url: 'https://github.com/cross-platform-actions/haiku-builder/releases/download/v0.0.1/haiku-r1beta5-x86-64.qcow2'
-        commands: |
+        run: |
           pkgman install cmake libvorbis_devel ninja git
-          mkdir src && cd src
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com{{ github.repository }}.git .
-          git checkout ${{ github.sha }}
           cmake . -B build --preset=ci-gcc
           cmake --build build --preset ninja-quiet
