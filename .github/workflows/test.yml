@@ -60,7 +60,7 @@ jobs:
     - name: 🪟 Install dependencies on Windows
       if: runner.os == 'Windows'
       shell: pwsh
-      run: vcpkg install --triplet ${{ matrix.arch }}-windows libvorbis libpng libjpeg-turbo zlib
+      run: vcpkg install --triplet ${{ matrix.arch }}-windows libvorbis libpng
     - name: ⚒ Build with Visual Studio on Windows
       env:
         sdkPath: "C:/Program Files (x86)/Windows Kits/10"
@@ -87,7 +87,6 @@ jobs:
         mingw-w64-${{ env.arch }}-ninja
         mingw-w64-${{ env.arch }}-cmake
         mingw-w64-${{ env.arch }}-libpng
-        mingw-w64-${{ env.arch }}-libjpeg-turbo
         mingw-w64-${{ env.arch }}-libvorbis
     - name: ⚒ Build with gcc
       env:
