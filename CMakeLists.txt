@@ -724,7 +724,7 @@ endif(ALLEGRO_MACOSX)
 
 if(PSP)
     include_directories(SYSTEM ${PSPSDK_PATH}/include)
-    link_directories(${PSPSDK_PATH}/lib)
+    add_link_options("-L${PSPSDK_PATH}/lib")
     list(APPEND PLATFORM_SOURCES ${ALLEGRO_SRC_PSP_FILES})
     list(APPEND PLATFORM_LIBS
     m pspaudio pspgu psprtc pspdebug pspdisplay pspge pspctrl pspsdk c pspnet pspnet_inet pspnet_resolver psputility pspuser pspkernel)
