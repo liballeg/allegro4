@@ -53,8 +53,7 @@
         "CMAKE_MAKE_PROGRAM": "/usr/lib/ninja-build/bin/ninja",
         "SHARED": false,
         "WANT_TOOLS": false,
-        "WANT_ALLEGROGL": false,
-        "ALLEGRO_USE_CONSTRUCTOR_EXITCODE": "0"
+        "WANT_ALLEGROGL": false
       }
     }
   ],
