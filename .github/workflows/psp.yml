@@ -12,9 +12,9 @@ jobs:
     steps:
     - name: 🎮 Setup tools
       run: apk add ninja-build
-    - name: Check out repository code
+    - name: 💳 Check out repository code
       uses: actions/checkout@v4
-    - name: ⚒ Build with gcc
+    - name: ⚒️ Build with gcc
       run: |
         cmake . -B build --preset=ci-psp
         cmake --build build --preset ninja-quiet
