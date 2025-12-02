@@ -11,7 +11,7 @@ jobs:
         - ${{ github.workspace }}:/src
     steps:
     - name: 🎮 Setup tools
-      run: apk add build-base cmake ninja-build git
+      run: apk add cmake ninja-build
     - name: Check out repository code
       uses: actions/checkout@v4
     - name: ⚒ Build with gcc
