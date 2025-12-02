@@ -728,8 +728,6 @@ if(PSP)
     include_directories(SYSTEM ${PSPSDK_PATH}/include)
     add_link_options("-L${PSPSDK_PATH}/lib")
     list(APPEND PLATFORM_SOURCES ${ALLEGRO_SRC_PSP_FILES})
-    list(APPEND PLATFORM_LIBS
-    m pspaudio pspgu psprtc pspdebug pspdisplay pspge pspctrl pspsdk c pspnet pspnet_inet pspnet_resolver psputility pspuser pspkernel)
 endif(PSP)
 
 #-----------------------------------------------------------------------------#
@@ -904,7 +902,7 @@ if(PSP)
 	OUTPUT_NAME alleg-main${BUILD_TYPE_SUFFIX}
 	COMPILE_FLAGS -DALLEGRO_SRC
 	)
-    target_link_libraries(alleg-main pspuser pspkernel)
+    target_link_libraries(alleg-main INTERFACE c pspaudio pspdisplay pspctrl pspdebug pspgu pspge)
     target_link_libraries(allegro alleg-main)
     install_our_library(alleg-main)
 endif(PSP)
