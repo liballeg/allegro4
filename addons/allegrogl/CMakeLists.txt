@@ -6,7 +6,7 @@
 if(NOT OPENGL_FOUND)
     return()
 endif()
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT BEOS)
     find_package(X11)
     if(NOT X11_FOUND)
 	return()
@@ -39,6 +39,9 @@ if(ALLEGRO_WITH_XWINDOWS)
 endif(ALLEGRO_WITH_XWINDOWS)
 
 # XXX Mesa generic driver support?
+if(PSP OR BEOS)
+    set(ALLEGROGL_GENERIC_DRIVER 1)
+endif(PSP OR BEOS)
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/include/allegrogl/alleggl_config.h.cmake
