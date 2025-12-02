@@ -33,20 +33,12 @@ jobs:
         sudo apt-get install -qq -y -o=Dpkg::Use-Pty=0
         cmake
         pkgconf
-        libxext-dev
         libx11-dev
-        libxpm-dev
-        libxt-dev
-        libxcursor-dev
         libasound2-dev
-        libopenal-dev
         libxxf86dga-dev
-        libxxf86vm-dev
+        libjack-dev
         libgl-dev
-        libglx-dev
-        libgl1-mesa-dev
         libglu-dev
-        libglu1-mesa-dev
         libpng-dev
         zlib1g-dev
         libvorbis-dev
