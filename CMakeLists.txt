@@ -339,8 +339,7 @@ endif()
 
 if(PSP)
     set(ALLEGRO_PSP 1)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -G0")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -G0 -fno-exceptions -fno-rtti")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-rtti")
 endif(PSP)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WFLAGS} ${WFLAGS_C_ONLY}")
