@@ -66,9 +66,9 @@ static unsigned char *rle_tga_read8(unsigned char *b, int w, PACKFILE *f)
 	 c += count;
          if (c > w)
             return NULL;
-	 b = raw_tga_read8(b, count, f);
          if (pack_feof(f))
 	    return NULL;
+	 b = raw_tga_read8(b, count, f);
       }
    } while (c < w);
    return b;
@@ -124,9 +124,9 @@ static unsigned int *rle_tga_read32(unsigned int *b, int w, PACKFILE *f)
 	 c += count;
          if (c > w)
             return NULL;
-	 color = single_tga_read32(f);
 	 if (pack_feof(f))
 	    return NULL;
+	 color = single_tga_read32(f);
 	 while (count--)
 	    *b++ = color;
       }
@@ -136,9 +136,9 @@ static unsigned int *rle_tga_read32(unsigned int *b, int w, PACKFILE *f)
 	 c += count;
          if (c > w)
             return NULL;
-	 b = raw_tga_read32(b, count, f);
 	 if (pack_feof(f))
 	    return NULL;
+	 b = raw_tga_read32(b, count, f);
       }
    } while (c < w);
    return b;
@@ -210,9 +210,9 @@ static unsigned char *rle_tga_read24(unsigned char *b, int w, PACKFILE *f)
 	 c += count;
          if (c > w)
             return NULL;
-	 b = raw_tga_read24(b, count, f);
 	 if (pack_feof(f))
 	    return NULL;
+	 b = raw_tga_read24(b, count, f);
       }
    } while (c < w);
    return b;
@@ -267,9 +267,9 @@ static unsigned short *rle_tga_read16(unsigned short *b, int w, PACKFILE *f)
 	 c += count;
          if (c > w)
             return NULL;
-	 color = single_tga_read16(f);
 	 if (pack_feof(f))
 	    return NULL;
+	 color = single_tga_read16(f);
 	 while (count--)
 	    *b++ = color;
       }
@@ -279,9 +279,9 @@ static unsigned short *rle_tga_read16(unsigned short *b, int w, PACKFILE *f)
 	 c += count;
          if (c > w)
             return NULL;
-	 b = raw_tga_read16(b, count, f);
 	 if (pack_feof(f))
 	    return NULL;
+	 b = raw_tga_read16(b, count, f);
       }
    } while (c < w);
    return b;
