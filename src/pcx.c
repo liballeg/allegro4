@@ -124,18 +124,18 @@ BITMAP *load_pcx_pf(PACKFILE *f, RGB *pal)
 #endif
 
       while (x < bytes_per_line*bpp/8) {
-	 ch = pack_getc(f);
 	 if (pack_feof(f)) {
 	    destroy_bitmap(b);
 	    return NULL;
          }
+	 ch = pack_getc(f);
 	 if ((ch & 0xC0) == 0xC0) {
 	    c = (ch & 0x3F);
-	    ch = pack_getc(f);
 	    if (pack_feof(f)) {
 	       destroy_bitmap(b);
 	       return NULL;
 	    }
+	    ch = pack_getc(f);
 	 }
 	 else
 	    c = 1;
