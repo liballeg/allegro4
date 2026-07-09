@@ -3,11 +3,10 @@
 # AllegroGL
 #
 
-find_package(OpenGL)
 if(NOT OPENGL_FOUND)
     return()
 endif()
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT BEOS)
     find_package(X11)
     if(NOT X11_FOUND)
 	return()
@@ -26,7 +25,7 @@ if(DLOPEN_LIB)
 endif()
 
 if(ALLEGRO_WITH_XWINDOWS)
-    set(CMAKE_REQUIRED_LIBRARIES ${OPENGL_gl_LIBRARY})
+    set(CMAKE_REQUIRED_LIBRARIES OpenGL::GL)
     check_function_exists(glXGetProcAddress GLXGETPROCADDRESS_FOUND)
     if(NOT GLXGETPROCADDRESS_FOUND)
         check_function_exists(glXGetProcAddressARB GLXGETPROCADDRESSARB_FOUND)
@@ -40,6 +39,9 @@ if(ALLEGRO_WITH_XWINDOWS)
 endif(ALLEGRO_WITH_XWINDOWS)
 
 # XXX Mesa generic driver support?
+if(PSP OR BEOS)
+    set(ALLEGROGL_GENERIC_DRIVER 1)
+endif(PSP OR BEOS)
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/include/allegrogl/alleggl_config.h.cmake
@@ -132,6 +134,11 @@ add_our_library(allegrogl ${ADDON_LINKAGE}
     ${ALLEGROGL_HEADERS}
     )
 
+target_compile_definitions(allegrogl
+    PRIVATE ALLEGRO_GL_SRC_BUILD
+    PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:ALLEGRO_GL_DYNAMIC>
+    )
+
 set_target_properties(allegrogl
     PROPERTIES
     COMPILE_FLAGS -DALLEGRO_GL_SRC_BUILD
@@ -178,7 +185,7 @@ function(add_our_example nm)
         PROPERTIES
         OUTPUT_NAME examp/${nm}
         )
-    target_link_libraries(${nm}_agl allegrogl)
+    target_link_libraries(${nm}_agl allegrogl OpenGL::GL)
 endfunction()
 
 if(WANT_EXAMPLES)

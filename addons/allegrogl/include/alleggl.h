@@ -76,7 +76,7 @@ typedef __int64 INT64;
 
 #include "allegrogl/gl_ext.h"
 
-#ifdef ALLEGRO_WITH_XWINDOWS
+#if defined(ALLEGRO_WITH_XWINDOWS) || defined(ALLEGRO_PSP) || defined(ALLEGRO_HAIKU)
 #if (ALLEGRO_SUB_VERSION == 2) && (ALLEGRO_WIP_VERSION < 2)
 #   ifndef HAVE_LIBPTHREAD
 #      error AllegroGL requires Allegro to have pthread support enabled!

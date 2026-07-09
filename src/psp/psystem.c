@@ -39,6 +39,10 @@ static void psp_sys_exit(void);
 static void psp_message(AL_CONST char *msg);
 static void psp_created_sub_bitmap(BITMAP *bmp, BITMAP *parent);
 static void psp_get_gfx_safe_mode(int *driver, struct GFX_MODE *mode);
+static void * psp_create_mutex(void);
+static void psp_destroy_mutex(void *handle);
+static void psp_lock_mutex(void *handle);
+static void psp_unlock_mutex(void *handle);
 
 
 
@@ -72,10 +76,10 @@ SYSTEM_DRIVER system_psp =
    NULL,  /* AL_METHOD(int, get_desktop_resolution, (int *width, int *height)); */
    psp_get_gfx_safe_mode,  /*AL_METHOD(void, get_gfx_safe_mode, (int *driver, struct GFX_MODE *mode));*/
    NULL,  /* AL_METHOD(void, yield_timeslice, (void)); */
-   NULL,  /* AL_METHOD(void *, create_mutex, (void)); */
-   NULL,  /* AL_METHOD(void, destroy_mutex, (void *handle)); */
-   NULL,  /* AL_METHOD(void, lock_mutex, (void *handle)); */
-   NULL,  /* AL_METHOD(void, unlock_mutex, (void *handle)); */
+   psp_create_mutex,
+   psp_destroy_mutex,
+   psp_lock_mutex,
+   psp_unlock_mutex,
    NULL,  /* AL_METHOD(_DRIVER_INFO *, gfx_drivers, (void)); */
    NULL,  /* AL_METHOD(_DRIVER_INFO *, digi_drivers, (void)); */
    NULL,  /* AL_METHOD(_DRIVER_INFO *, midi_drivers, (void)); */
@@ -233,4 +237,31 @@ static void psp_get_gfx_safe_mode(int *driver, struct GFX_MODE *mode)
    mode->bpp = DEFAULT_COLOR_DEPTH;
 }
 
+static void * psp_create_mutex(void)
+{
+   SceLwMutexWorkarea *mutex = (SceLwMutexWorkarea *)_AL_MALLOC(sizeof(SceLwMutexWorkarea));
+   if (!mutex)
+      return NULL;
+   if (sceKernelCreateLwMutex(mutex, "allegro_mutex", 0, 0, NULL)) {
+      _AL_FREE(mutex);
+      return NULL;
+   }
+   return (void *)mutex;
+}
+
+static void psp_destroy_mutex(void *handle)
+{
+   sceKernelDeleteLwMutex((SceLwMutexWorkarea *)handle);
+   _AL_FREE(handle);
+}
+
+static void psp_lock_mutex(void *handle)
+{
+   sceKernelLockLwMutex((SceLwMutexWorkarea *)handle, 1, NULL);
+}
+
+static void psp_unlock_mutex(void *handle)
+{
+   sceKernelUnlockLwMutex((SceLwMutexWorkarea *)handle, 1);
+}
 

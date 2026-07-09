@@ -29,7 +29,7 @@ find_library(DDRAW_LIBRARY
 # Handle the QUIETLY and REQUIRED arguments and set DDRAW_FOUND to TRUE if
 # all listed variables are TRUE.
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(DDRAW DEFAULT_MSG
+find_package_handle_standard_args(DDraw DEFAULT_MSG
     DDRAW_INCLUDE_DIR DDRAW_LIBRARY)
 
 if(DDRAW_FOUND)

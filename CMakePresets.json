@@ -1,0 +1,67 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "ci-vs",
+      "generator": "Visual Studio 17 2022",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_BUILD_TYPE": "Debug;RelWithDebInfo",
+        "DSOUND_INCLUDE_DIR": "$env{sdkPath}/Include/$env{sdkVer}/um",
+        "DSOUND_LIBRARY": "$env{sdkPath}/Lib/$env{sdkVer}/um/$env{arch}/dsound.lib",
+        "DXGUID_LIBRARY": "$env{sdkPath}/Lib/$env{sdkVer}/um/$env{arch}/dxguid.lib",
+        "DDRAW_INCLUDE_DIR": "$env{sdkPath}/Include/$env{sdkVer}/um",
+        "DDRAW_LIBRARY": "$env{sdkPath}/Lib/$env{sdkVer}/um/$env{arch}/ddraw.lib",
+        "DINPUT_INCLUDE_DIR": "$env{sdkPath}/Include/$env{sdkVer}/um",
+        "DINPUT_LIBRARY": "$env{sdkPath}/Lib/$env{sdkVer}/um/$env{arch}/dinput8.lib",
+        "CMAKE_C_FLAGS": "/W4 /we4311 /we4133 /we4022 /we4312 /we4047 /we4365 /wd4018 /wd4245 /wd4389 /wd4100 /wd4127 /wd4152 /wd4210 /wd4459 /wd4232 /wd4267 /we4005",
+        "WANT_DOCS": false,
+        "WANT_EXAMPLES": true,
+        "WANT_TESTS": true
+      }
+    },
+    {
+      "name": "ci-gcc",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "STRICT_WARN": false,
+        "CMAKE_C_FLAGS": "-Wall -Werror=pointer-to-int-cast -Werror=int-to-pointer-cast -Werror=pointer-arith",
+        "WANT_DOCS": false,
+        "WANT_EXAMPLES": true,
+        "WANT_TESTS": true
+      }
+    },
+    {
+      "name": "ci-xc",
+      "inherits": "ci-gcc",
+      "environment": {
+        "MINGDIR": "/usr/x86_64-w64-mingw32"
+      },
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/toolchains/mingw.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-mingw-dynamic",
+        "VCPKG_TARGET_ARCHITECTURE": "x64"
+      }
+    },
+    {
+      "name": "ci-psp",
+      "inherits": "ci-gcc",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/Toolchain-psp-gcc.cmake",
+        "CMAKE_MAKE_PROGRAM": "/usr/lib/ninja-build/bin/ninja",
+        "SHARED": false,
+        "WANT_TOOLS": false,
+        "WANT_ALLEGROGL": false
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "ninja-quiet",
+      "configurePreset": "ci-gcc",
+      "nativeToolOptions": ["--quiet"]
+    }
+  ]
+}

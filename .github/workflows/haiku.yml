@@ -1,0 +1,21 @@
+name: Haiku
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 💳 Check out repository code
+      uses: actions/checkout@v4
+    - name: ⚒️ Build on Haiku
+      uses: cross-platform-actions/action@v0.30.0
+      with:
+        operating_system: haiku
+        version: r1beta5
+        sync_files: runner-to-vm
+        memory: 2G
+        run: |
+          pkgman install -y cmake ninja glu_devel libvorbis_devel
+          cmake . -B build --preset=ci-gcc
+          cmake --build build --preset ninja-quiet

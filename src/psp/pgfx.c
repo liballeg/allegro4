@@ -39,6 +39,8 @@
 #define VIDEO_REFRESH_RATE              (60)
 #define DISPLAY_SIZE     (MIN_BUF_WIDTH * MAX_SCR_HEIGHT * PALETTE_PIXEL_SIZE)
 
+/* The video bitmap actually displayed on the PSP. */
+BITMAP *displayed_video_bitmap;
 
 /* The width in pixels of the display framebuffer. */
 static unsigned int framebuf_width;

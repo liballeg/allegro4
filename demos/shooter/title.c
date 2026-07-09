@@ -321,7 +321,7 @@ static int parse_source(AL_CONST char *filename, int attrib, void *param)
          textprintf_centre_ex(screen, font, SCREEN_W / 2, SCREEN_H / 2 + 8,
                               makecol(160, 160, 160), 0,
                               "                %s                ",
-                              filename + (int)(unsigned long)param);
+                              filename + (uintptr_t)param);
 
          while (pack_fgets(buf, sizeof(buf) - 1, f) != 0) {
             if (strstr(buf, "*/"))
@@ -334,7 +334,7 @@ static int parse_source(AL_CONST char *filename, int attrib, void *param)
                   for (d = c->files; d; d = d->next) {
                      if (strcmp
                          (d->text,
-                          filename + (int)(unsigned long)param) == 0)
+                          filename + (uintptr_t)param) == 0)
                         break;
                   }
 
@@ -342,9 +342,9 @@ static int parse_source(AL_CONST char *filename, int attrib, void *param)
                      d = malloc(sizeof(TEXT_LIST));
                      d->text =
                          malloc(strlen
-                                (filename + (int)(unsigned long)param) +
+                                (filename + (uintptr_t)param) +
                                 1);
-                     strcpy(d->text, filename + (int)(unsigned long)param);
+                     strcpy(d->text, filename + (uintptr_t)param);
                      d->next = c->files;
                      c->files = d;
                   }
@@ -531,7 +531,7 @@ static void load_credits(void)
       replace_filename(buf, buf2, "*.*", sizeof(buf));
       for_each_file_ex(buf, 0, ~(FA_ARCH | FA_RDONLY | FA_DIREC),
                        parse_source,
-                       (void *)(unsigned long)(strlen(buf2) - 3));
+                       (void*)(strlen(buf2) - 3));
    }
 
    /* sort the lists */

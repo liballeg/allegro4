@@ -47,7 +47,7 @@ if(SUPPORT_ALLEGROGL)
         PROPERTIES
         COMPILE_FLAGS -DDEMO_USE_ALLEGRO_GL
         )
-    target_link_libraries(skater_agl allegrogl)
+    target_link_libraries(skater_agl allegrogl OpenGL::GL)
 endif(SUPPORT_ALLEGROGL)
 
 copy_files(copy_skater_data

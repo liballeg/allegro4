@@ -28,6 +28,11 @@ add_our_library(logg ${ADDON_LINKAGE}
     ${LOGG_HEADERS}
     )
 
+target_compile_definitions(logg
+    PRIVATE LOGG_SRC_BUILD
+    PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:LOGG_DYNAMIC>
+    )
+
 set_target_properties(logg
     PROPERTIES
     LINK_FLAGS "${ALLEGRO_LINK_FLAGS}"
@@ -56,6 +61,8 @@ endif(NOT WANT_FRAMEWORKS)
 #
 
 if(WANT_EXAMPLES)
+    add_compile_definitions(ALLEGRO_USE_CONSOLE)
+
     add_executable(play_ogg play_ogg.c)
     target_link_libraries(play_ogg logg)
 

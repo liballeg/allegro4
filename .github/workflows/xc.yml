@@ -1,0 +1,30 @@
+name: Cross compilation
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 💳 Check out repository code
+      uses: actions/checkout@v4
+    - name: 🐧 Setup
+      run: >-
+        sudo apt-get install -qq -y -o=Dpkg::Use-Pty=0
+        mingw-w64-x86-64-dev
+        binutils-mingw-w64-x86-64
+        gcc-mingw-w64-x86-64-win32
+        g++-mingw-w64-x86-64-win32
+    - name: 💾 Cache vcpkg dependencies
+      uses: actions/cache@v4
+      with:
+        path: /usr/local/share/vcpkg/installed
+        key: vcpkg-installed
+    - name: 🌳 Install dependencies
+      run: |
+        echo VCPKG_ROOT=/usr/local/share/vcpkg >> $GITHUB_ENV
+        vcpkg install --triplet=x64-mingw-dynamic libpng libvorbis
+    - name: ⚒️ Build with gcc
+      run: |
+        cmake . -B build --preset=ci-xc
+        cmake --build build --preset ninja-quiet

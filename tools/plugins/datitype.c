@@ -107,7 +107,7 @@ static int do_changetype(DATAFILE *dat, int *param, int type)
 /* changes the type of bitmap data */
 static int changetype(void)
 {
-   int type = (int)((unsigned long)active_menu->dp);
+   int type = (intptr_t)active_menu->dp;
    char buf[80];
    int ret, n;
    int p = 0;
@@ -200,7 +200,7 @@ static int do_changedepth(DATAFILE *dat, int *param, int depth)
 /* changes the color depth of bitmap data */
 static int changedepth(void)
 {
-   int depth = (int)((unsigned long)active_menu->dp);
+   int depth = (intptr_t)active_menu->dp;
    char buf[80];
    int ret, n;
    int p = 0;

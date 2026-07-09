@@ -31,6 +31,11 @@ add_our_library(loadpng ${ADDON_LINKAGE}
     ${LOADPNG_HEADERS}
     )
 
+target_compile_definitions(loadpng
+    PRIVATE LOADPNG_SRC_BUILD
+    PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:LOADPNG_DYNAMIC>
+    )
+
 set_target_properties(loadpng
     PROPERTIES
     LINK_FLAGS "${ALLEGRO_LINK_FLAGS}"
@@ -78,8 +83,8 @@ endfunction()
 
 if(WANT_EXAMPLES)
     add_our_example(example)
-    add_our_example(exalpha)
-    add_our_example(exdata)
+    add_our_example(exalpha2)
+    add_our_example(exdata2)
     add_our_example(browse)
 
     copy_files(copy_loadpng_example_data

@@ -19,6 +19,7 @@
  */
 
 #include "allegro.h"
+#define STRICT
 #include "winalleg.h"
 #include "dibsound.rh" 
 
@@ -29,7 +30,7 @@ BITMAP *bmp = NULL;
 
 
 
-BOOL CALLBACK AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
    switch(Message) {
 

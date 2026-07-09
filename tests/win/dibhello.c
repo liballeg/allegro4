@@ -32,7 +32,7 @@ PALETTE pal;
 
 
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, UINT wParam, LONG lParam)
+LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
    RECT rect, updaterect;
    PAINTSTRUCT ps;
